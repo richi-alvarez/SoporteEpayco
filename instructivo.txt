@@ -12,4 +12,5 @@ composer require symfony/asset "4.2.*"
 composer require symfony/property-access "4.2.*"
 php bin/console doctrine:mapping:import App\Entity annotation --path=src\Entity
 php bin/console make:entity --regenerate
+este comando es para que tome la estructura de la BD que se creo en MYSQL y la pase a sinfony
 -renombrar los archivos creados en singular y la clase de estas

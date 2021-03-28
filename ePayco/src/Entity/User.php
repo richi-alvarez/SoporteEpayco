@@ -31,6 +31,20 @@ class User implements \JsonSerializable //configurar clase para que sea serializ
     /**
      * @var string
      *
+     * @ORM\Column(name="tipe_doc", type="string", length=50, nullable=false)
+     */
+    private $tipeDoc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="number_doc", type="string", length=255, nullable=false)
+     */
+    private $numberDoc;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
     private $email;
@@ -62,6 +76,30 @@ class User implements \JsonSerializable //configurar clase para que sea serializ
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getTipeDoc(): ?string
+    {
+        return $this->tipeDoc;
+    }
+
+    public function setTipeDoc(string $tipeDoc): self
+    {
+        $this->tipeDoc = $tipeDoc;
+
+        return $this;
+    }
+
+    public function getNumberDoc(): ?string
+    {
+        return $this->numberDoc;
+    }
+
+    public function setNumberDoc(string $numberDoc): self
+    {
+        $this->numberDoc = $numberDoc;
 
         return $this;
     }

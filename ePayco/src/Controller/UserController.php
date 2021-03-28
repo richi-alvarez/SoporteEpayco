@@ -30,16 +30,16 @@ class UserController extends AbstractController
         $data = [
             'status' => 'error',
             'code' => 200,
-            'message' => 'El usuario no se ha creado.',
-            'json' => $params
+            'message' => 'El usuario no se ha creado.'
         ];
         //comprobar y validar datos
         if(!empty($params))
         {
             $name = $params['name'];
+            $tipe_doc = $params['tipe_doc'];
+            $number_doc = $params['number_doc'];
             $email = $params['email'];
             $password = $params['password'];
-
             $validator = Validation::createValidator();
             $validate_email = $validator->validate($email, [
                 new Email()
@@ -52,29 +52,61 @@ class UserController extends AbstractController
                !empty($name)
                )
             {
+            //si la validacioón es correcta, crear el objeto del usuario
+                $user = new User();
+                $user->setName($name);
+                $user->setTipeDoc($tipe_doc);
+                $user->setNumberDoc($number_doc);
+                $user->setEmail($email);
+                $user->setCreatedAt(new \Datetime('now'));
+            //cifrar la contraseña
+                $pwd = hash('sha256', $password);
+                $user->setPassword($pwd);
+
+            //comprobar si el usuario existe (duplicado)
+             /*entitymanager(doctrine) capa de astraccion para acceder, realizar consultas o procesar informacion en base a los modelos*/
+                $doctrine = $this->getDoctrine();
+                $em = $doctrine->getManager();
+
+                $user_repo = $doctrine->getRepository(User::class);
+                $isset_user = $user_repo->findBy(array(
+                    'email' => $email
+                ));
+            //si no existe, guardarlo en BD
+                if(count($isset_user) == 0)
+                {
+                //guardo el usuario
+                //persistir el objeto usuario en el entitymanager(doctrine)
+                $em->persist($user);
+                //guardar directamente a la BD
+                $em->flush();
                 $data = [
-                    'status' => 'succes',
-                    'code' => 200,
-                    'message' => 'VALIDACION CORRECTA'
+                        'status' => 'success',
+                        'code' => 200,
+                        'message' => 'Usuario creado correctamente',
+                        'user' => $user
                 ];
-            }else{
-                $data = [
-                    'status' => 'succes',
-                    'code' => 200,
-                    'message' => 'VALIDACION IN-CORRECTA'
-                ];
+                }else{
+                    $data = [
+                        'status' => 'error',
+                        'code' => 400,
+                        'message' => 'El usuario ya existe.'
+                    ];
+                }
             }
         }
-        //si la validacioón es correcta, crear el objeto del usuario
+            //hacer respuesta en json
+        return $this->resjson($data);
+    }
 
-        //cifrar la contraseña
+    public function login(Request $request)
+    {
+        // Recibir los datos por post
 
-        //comprobar si el usuario existe (duplicado)
+        // array por defecto para devolver
 
-        //si no existe, guardarlo en BD
+        // comprobar y 
 
-        //hacer respuesta en json
-        return new JsonResponse($data);
     }
 
     private function resjson($data){
