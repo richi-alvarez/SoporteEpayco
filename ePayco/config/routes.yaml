@@ -25,5 +25,5 @@ user_edit:
 #Invoice
 invoice:
     path: /invoice
-    controller: App\Controller\InvoiceController::index
-    methods: [POST]
+    controller: App\Controller\InvoiceController::getInvoice
+    methods: [GET]
