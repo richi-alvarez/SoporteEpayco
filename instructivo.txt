@@ -1,0 +1,12 @@
+1
+
+crear controladores
+
+1)php bin/console make:controller InvoiceController
+composer require firebase/php-jwt "3.0.0"
+composer require symfony/http-foundation "4.2.*"
+composer require symfony/http-foundation "4.2.*"
+composer require symfony/serializer "4.2.*"
+composer require symfony/validator "4.2.*"
+composer require symfony/asset "4.2.*"
+composer require symfony/property-access "4.2.*"
