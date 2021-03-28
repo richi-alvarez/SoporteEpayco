@@ -30,8 +30,8 @@ class UserController extends AbstractController
         //respuesta por defecto
         $data = [
             'status' => 'error',
-            'code' => 200,
-            'message' => 'El usuario no se ha creado.'
+            'code' => 400,
+            'message' => 'proceso invalido!'
         ];
         //comprobar y validar datos
         if(!empty($params))
@@ -84,16 +84,15 @@ class UserController extends AbstractController
                 //guardar directamente a la BD
                 $em->flush();
                 $data = [
-                        'status' => 'success',
-                        'code' => 200,
-                        'message' => 'Usuario creado correctamente',
-                        'user' => $user
+                    'status' => 'success',
+                    'code' => 200,
+                    'message' => 'proceso realizado exitosamente!'
                 ];
                 }else{
                     $data = [
                         'status' => 'error',
                         'code' => 400,
-                        'message' => 'El usuario ya existe.'
+                        'message' => 'proceso invalido!'
                     ];
                 }
             }
@@ -109,8 +108,8 @@ class UserController extends AbstractController
         // array por defecto para devolver
         $data = [
             'status' => 'error',
-            'code' => 200,
-            'message' => 'El usuario no se ha podido identificar'
+            'code' => 400,
+            'message' => 'proceso invalido!'
         ];
         // comprobar y validar datos
         if(!empty($params))
@@ -156,7 +155,7 @@ class UserController extends AbstractController
         $data = [
             'status' => 'error',
             'code' => 400,
-            'message' => 'Usuario no ACTUALIZADO'
+            'message' => 'sesión expirada'
         ];
         //si es correcto, hacer la actualizacion del usuario
         if($authCheck)
@@ -206,16 +205,15 @@ class UserController extends AbstractController
                     //guardar directamente a la BD
                     $em->flush();
                     $data = [
-                            'status' => 'success',
-                            'code' => 200,
-                            'message' => 'Usuario actualizado',
-                            'user' => $user
+                        'status' => 'success',
+                        'code' => 200,
+                        'message' => 'proceso realizado exitosamente!'
                     ];
                     }else{
                         $data = [
                             'status' => 'error',
                             'code' => 400,
-                            'message' => 'no puedes usar ese email'
+                            'message' => 'proceso invalido!'
                         ];
                     }
 
