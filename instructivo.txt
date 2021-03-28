@@ -14,3 +14,5 @@ php bin/console doctrine:mapping:import App\Entity annotation --path=src\Entity
 php bin/console make:entity --regenerate
 este comando es para que tome la estructura de la BD que se creo en MYSQL y la pase a sinfony
 -renombrar los archivos creados en singular y la clase de estas
+-crear una carpeta dentro de src para crear el servicio de jwt token
+-dentro de config/services.yarml  aggregar  =>    App\Services\JwtAuth: ['@doctrine.orm.entity_manager']
