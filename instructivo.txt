@@ -10,3 +10,6 @@ composer require symfony/serializer "4.2.*"
 composer require symfony/validator "4.2.*"
 composer require symfony/asset "4.2.*"
 composer require symfony/property-access "4.2.*"
+php bin/console doctrine:mapping:import App\Entity annotation --path=src\Entity
+php bin/console make:entity --regenerate
+-renombrar los archivos creados en singular y la clase de estas

@@ -6,21 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\User;
 
 class UserController extends AbstractController
 {
+
     public function index(): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/UserController.php',
-        ]);
+        $user_repo = $this->getDoctrine()->getRepository(User::class);
+        $users = $user_repo->findAll();
+        // $data = [
+        //     ''
+        // ];
+        return $this->resjson($users);
     }
 
     private function resjson($data){
-        //Serializar datos con servicio serializer
+        //Serializar datos con servicio serializer(objeto->texto)
         $json = $this->get('serializer')->serialize($data, 'json');
-        //response con httpfoundation
+        //response con httpfoundation (crear objeto de respuesta)
         $response = new Response();
         //Asignar contenido a la respuesta
         $response->setContent($json);

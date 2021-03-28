@@ -5,7 +5,7 @@
 user:
     path: /user
     controller: App\Controller\UserController::index
-    methods: [POST]
+    methods: [POST,GET]
 
 #Invoice
 invoice:
