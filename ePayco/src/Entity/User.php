@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  * @ORM\Entity
  */
-class User implements \JsonSerializable //configurar clase para que sea serializable atra vez de la interfaz
+class User implements  \JsonSerializable //configurar clase para que sea serializable atra vez de la interfaz
 {
     /**
      * @var int
@@ -41,6 +41,20 @@ class User implements \JsonSerializable //configurar clase para que sea serializ
      * @ORM\Column(name="number_doc", type="string", length=255, nullable=false)
      */
     private $numberDoc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="public_key", type="string", length=255, nullable=false)
+     */
+    private $publicKey;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="private_key", type="string", length=255, nullable=false)
+     */
+    private $privateKey;
 
     /**
      * @var string
@@ -104,6 +118,30 @@ class User implements \JsonSerializable //configurar clase para que sea serializ
         return $this;
     }
 
+    public function getPublicKey(): ?string
+    {
+        return $this->publicKey;
+    }
+
+    public function setPublicKey(string $publicKey): self
+    {
+        $this->publicKey = $publicKey;
+
+        return $this;
+    }
+
+    public function getPrivateKey(): ?string
+    {
+        return $this->privateKey;
+    }
+
+    public function setPrivateKey(string $privateKey): self
+    {
+        $this->privateKey = $privateKey;
+
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -150,5 +188,4 @@ class User implements \JsonSerializable //configurar clase para que sea serializ
             'email' => $this->email
         ];
     }
-
 }

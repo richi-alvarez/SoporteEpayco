@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\Email;
 use App\Entity\User;
 use App\Services\JwtAuth;
+use App\Services\Epayco;
 
 class InvoiceController extends AbstractController
 {
@@ -26,7 +27,7 @@ class InvoiceController extends AbstractController
         ]);
     }
 
-    public function getInvoice ( Request $request, JwtAuth $jwt_auth)
+    public function getInvoice ( Request $request, JwtAuth $jwt_auth, Epayco $epayco)
     {
         //recojer la cabecera de autentificación
         $token = $request->headers->get('Authorization');
@@ -65,39 +66,42 @@ class InvoiceController extends AbstractController
                            if($user->getTipeDoc() == $tipe_doc &&
                             $user->getNumberDoc() == $number_doc)
                            {
-                            // $json = '{
-                            //     "projectId":356,
-                            //     "document":"71698318"
-                            // }';
-                            // try {
-                            //     $curl = curl_init();
-                            //     curl_setopt_array($curl, array(
-                            //     CURLOPT_URL =>$this->url. "/billcollect/invoices/consult",
-                            //     CURLOPT_RETURNTRANSFER => true,
-                            //     CURLOPT_ENCODING => "",
-                            //     CURLOPT_MAXREDIRS => 10,
-                            //     CURLOPT_TIMEOUT => 0,
-                            //     CURLOPT_FOLLOWLOCATION => true,
-                            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                            //     CURLOPT_CUSTOMREQUEST => "POST",
-                            //     CURLOPT_POSTFIELDS =>$json,
-                            //     CURLOPT_HTTPHEADER => array(
-                            //         "Content-Type: application/json",
-                            //         "Accept: application/json"
-                            //     ),
-                            //     ));
-                            //     $result = curl_exec($curl);
-                            //     curl_close($curl);
-                            //     $data = json_decode($result, true);
-                            // } catch (\Throwable $th) {
-                            //     throw $th;
-                            // }
+                            $token_epayco=$epayco->requestJwt($user->getEmail());
+        
+                            $json = '{
+                                "projectId":"",
+                                "document": $user->getNumberDoc()
+                            }';
+                            try {
+                                $curl = curl_init();
+                                curl_setopt_array($curl, array(
+                                CURLOPT_URL =>$this->url. "/billcollect/invoices/consult",
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => "",
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => "POST",
+                                CURLOPT_POSTFIELDS =>$json,
+                                CURLOPT_HTTPHEADER => array(
+                                    "Content-Type: application/json",
+                                    "Accept: application/json",
+                                    "Authorization: Bearer ".$token_epayco["bearer_token"]
+                                ),
+                                ));
+                                $result = curl_exec($curl);
+                                curl_close($curl);
+                                $data = json_decode($result, true);
+                            } catch (\Throwable $th) {
+                                throw $th;
+                            }
                           
-                                $data = [
-                                    'status' => 'success',
-                                    'code' => 200,
-                                    'message' => 'proceso realizado exitosamente!'
-                                ];
+                                // $data = [
+                                //     'status' => 'success',
+                                //     'code' => 200,
+                                //     'message' => 'proceso realizado exitosamente!'
+                                // ];
                            }else{
                                 $data = [
                                     'status' => 'error',

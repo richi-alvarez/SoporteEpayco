@@ -39,6 +39,8 @@ class UserController extends AbstractController
             $name = $params['name'];
             $tipe_doc = $params['tipe_doc'];
             $number_doc = $params['number_doc'];
+            $public_key = $params['public_key'];
+            $private_key = $params['private_key'];
             $email = $params['email'];
             $password = $params['password'];
             $validator = Validation::createValidator();
@@ -52,7 +54,9 @@ class UserController extends AbstractController
                !empty($password) &&
                !empty($name) &&
                !empty($tipe_doc) &&
-               !empty($number_doc)
+               !empty($number_doc) &&
+               !empty($public_key) &&
+               !empty($private_key)
                )
             {
             //si la validacioón es correcta, crear el objeto del usuario
@@ -60,6 +64,8 @@ class UserController extends AbstractController
                 $user->setName($name);
                 $user->setTipeDoc($tipe_doc);
                 $user->setNumberDoc($number_doc);
+                $user->setPublicKey($public_key);
+                $user->setPrivateKey($private_key);
                 $user->setEmail($email);
                 $user->setCreatedAt(new \Datetime('now'));
             //cifrar la contraseña
@@ -178,6 +184,8 @@ class UserController extends AbstractController
                 $tipe_doc = $params['tipe_doc'];
                 $number_doc = $params['number_doc'];
                 $email = $params['email'];
+                $public_key = $params['public_key'];
+                $private_key = $params['private_key'];
                 $validator = Validation::createValidator();
                 $validate_email = $validator->validate($email, [
                     new Email()
@@ -192,7 +200,8 @@ class UserController extends AbstractController
                     //asignar nuevos datos al objeto del usuario
                     $user->setTipeDoc($tipe_doc);
                     $user->setNumberDoc($number_doc);
-
+                    $user->setPublicKey($public_key);
+                    $user->setPrivateKey($private_key);
                     //comprobar duplicados
                     $isset_user = $user_repo->findBy(array(
                         'email' => $email
