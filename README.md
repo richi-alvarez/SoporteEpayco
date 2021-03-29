@@ -13,9 +13,9 @@
 * angular versión resiente
 
 ## Instalación
-1) cloanrce los repositorios,  
+1) clonarce los repositorio.
 
-* es instalarce las dependencias de cada uno.
+* es instalar las dependencias de cada uno  con composer.
 * realizar la conexion con la base de datos.
 
 
